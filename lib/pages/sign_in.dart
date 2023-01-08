@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:instagramclone/services/util.dart';
 
+import 'home_page.dart';
 import 'sign_up.dart';
 
 class SignIn extends StatefulWidget {
@@ -12,7 +14,32 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  TextEditingController? _emailController;
+  TextEditingController? _passController;
+
   bool isVisible = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _emailController = TextEditingController();
+    _passController = TextEditingController();
+  }
+
+  _signIn() {
+    String email = _emailController!.text.trim();
+    String pass = _passController!.text.trim();
+
+    if (email.isEmpty || pass.isEmpty) {
+      Util.ToastMS("Enter completely!");
+      return;
+    }
+
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomePage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,10 +47,9 @@ class _SignInState extends State<SignIn> {
         padding: const EdgeInsets.all(20),
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color(0xfffc13583), Color(0xfff833ab4)],
-          ),
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Color(0xffffcaf45), Color(0xffff56040)]),
         ),
         child: Column(
           children: [
@@ -50,6 +76,7 @@ class _SignInState extends State<SignIn> {
                           color: Colors.white.withOpacity(0.3),
                           borderRadius: BorderRadius.circular(10)),
                       child: TextField(
+                        controller: _emailController,
                         style: TextStyle(color: Colors.grey.shade300),
                         decoration: InputDecoration(
                             hintStyle: TextStyle(color: Colors.grey.shade300),
@@ -69,6 +96,7 @@ class _SignInState extends State<SignIn> {
                           color: Colors.white.withOpacity(0.3),
                           borderRadius: BorderRadius.circular(10)),
                       child: TextField(
+                        controller: _passController,
                         obscureText: isVisible,
                         style: TextStyle(color: Colors.grey.shade300),
                         decoration: InputDecoration(
@@ -101,7 +129,9 @@ class _SignInState extends State<SignIn> {
                               side: MaterialStatePropertyAll(BorderSide(
                                   color:
                                       Colors.grey.shade400.withOpacity(0.6)))),
-                          onPressed: () {},
+                          onPressed: () {
+                            _signIn();
+                          },
                           child: const Text(
                             "Sign In",
                             style: TextStyle(color: Colors.white),
@@ -123,8 +153,10 @@ class _SignInState extends State<SignIn> {
                 ),
                 TextButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => SignUp()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignUp()));
                     },
                     child: const Text(
                       "Sign Up",

@@ -24,7 +24,7 @@ class _SignUpState extends State<SignUp> {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xfffc13583), Color(0xfff833ab4)],
+            colors: [Color(0xffffcaf45), Color(0xffff56040)]
           ),
         ),
         child: Column(
