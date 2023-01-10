@@ -38,7 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   icons_launcher: ^2.0.6
   fluttertoast: ^8.1.2
-  image_picker: ^0.8.6
+  image_picker: ^0.8.4+1
 
 icons_launcher:
   image_path: "assets/images/instalogo.png"

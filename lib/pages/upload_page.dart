@@ -11,30 +11,30 @@ class UploadPage extends StatefulWidget {
 }
 
 class _UploadPageState extends State<UploadPage> {
-
   final ImagePicker _picker = ImagePicker();
   File? _image;
 
-  _showGallery()async{
-
-      final XFile? file = await _picker.pickImage(source: ImageSource.gallery);
-      if(file==null) return;
-      setState(() {
-        _image = File(file.path);
-      });
-      Navigator.pop(context);
+  _showGallery() async {
+    final XFile? file = await _picker.pickImage(source: ImageSource.gallery);
+    if (file == null) return;
+    setState(() {
+      _image = File(file.path);
+    });
+    Navigator.pop(context);
   }
 
-  _showCamera()async{
-      
-      final XFile? file = await _picker.pickImage(source: ImageSource.camera);
-      if(file==null) return;
+  _showCamera() async {
+    try {
+      final XFile? file =
+          await _picker.pickImage(source: ImageSource.camera, imageQuality: 50);
       setState(() {
-        _image = File(file.path);
+        _image = File(file!.path);
       });
-      
+    } catch (error) {
+      print(error);
+    }
+    Navigator.of(context).pop();
   }
-
 
   _showPic() {
     showModalBottomSheet(
@@ -46,15 +46,15 @@ class _UploadPageState extends State<UploadPage> {
                   onTap: () {
                     _showGallery();
                   },
-                  leading: Icon(Icons.photo_library),
-                  title: Text("Pick Photo"),
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text("Pick Photo"),
                 ),
                 ListTile(
                   onTap: () {
                     _showCamera();
                   },
-                  leading: Icon(Icons.camera_alt_outlined),
-                  title: Text("Take Photo"),
+                  leading: const Icon(Icons.camera_alt_outlined),
+                  title: const Text("Take Photo"),
                 ),
               ],
             ));
@@ -89,17 +89,61 @@ class _UploadPageState extends State<UploadPage> {
                 onTap: () {
                   _showPic();
                 },
-                child: Container(
-                  color: Colors.grey.shade400,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.width,
-                  child: const Icon(
-                    Icons.add_a_photo,
-                    color: Color.fromARGB(255, 153, 153, 153),
-                    size: 50,
-                  ),
+                child: Stack(
+                  children: [
+                    Container(
+                      color: Colors.grey.shade400,
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.width,
+                      child: _image == null
+                          ? const Icon(
+                              Icons.add_a_photo,
+                              color: Color.fromARGB(255, 153, 153, 153),
+                              size: 50,
+                            )
+                          : Image(
+                              image: FileImage(_image!),
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+                    _image != null
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.black,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _image = null;
+                                      });
+                                    },
+                                    icon: const Icon(Icons.close),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container(),
+                  ],
                 ),
-              )
+              ),
+              
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: TextField(
+                  keyboardType: TextInputType.multiline,
+                  minLines:1,
+                  maxLines: 5,
+                decoration: InputDecoration(
+                 
+                  hintText: "Caption"
+                ),
+                ),
+              ),
+            
             ],
           ),
         ));
