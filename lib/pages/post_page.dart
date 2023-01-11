@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:instagramclone/model/post_model.dart';
+import 'package:shimmer/shimmer.dart';
 
 class PostPage extends StatefulWidget {
   const PostPage({super.key});
@@ -32,27 +33,31 @@ class _PostPageState extends State<PostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  EvaIcons.camera,
-                  color: Colors.black,
-                  size: 30,
-                ))
-          ],
-          elevation: 0.1,
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: const Text(
-            "Instagram",
-            style: TextStyle(
-                fontSize: 40, fontFamily: "Billabong", color: Colors.black),
-          )),
-      body: ListView.separated( itemBuilder: (context, index) => _itemPost(
-              context, posts[index].image_url, posts[index].caption!), separatorBuilder: (context,index)=>const Divider(thickness: 0.8,), itemCount: posts.length)
-    );
+        appBar: AppBar(
+            actions: [
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    EvaIcons.camera,
+                    color: Colors.black,
+                    size: 30,
+                  ))
+            ],
+            elevation: 0.1,
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: const Text(
+              "Instagram",
+              style: TextStyle(
+                  fontSize: 40, fontFamily: "Billabong", color: Colors.black),
+            )),
+        body: ListView.separated(
+            itemBuilder: (context, index) => _itemPost(
+                context, posts[index].image_url, posts[index].caption!),
+            separatorBuilder: (context, index) => const Divider(
+                  thickness: 0.8,
+                ),
+            itemCount: posts.length));
   }
 }
 
@@ -61,7 +66,7 @@ Widget _itemPost(BuildContext context, String imgUrl, String caption) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(
           children: [
             const CircleAvatar(
@@ -101,34 +106,40 @@ Widget _itemPost(BuildContext context, String imgUrl, String caption) {
           ],
         ),
       ),
+      SizedBox(
+        height: 5,
+      ),
       Container(
         color: Colors.grey.withOpacity(0.3),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.width * 2 / 3,
         child: CachedNetworkImage(
           imageUrl: imgUrl,
-          placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+          placeholder: (context, url) => Shimmer.fromColors(
+              baseColor: Colors.grey.withOpacity(0.5),
+              highlightColor: Colors.grey.shade100,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width * 2 / 3,
+                color: Colors.grey,
+              )),
         ),
-      ),
-      const SizedBox(
-        height: 5,
       ),
       Row(
         children: [
           IconButton(
+              padding: EdgeInsets.only(left: 5),
               onPressed: () {},
               icon: const Icon(
                 EvaIcons.heartOutline,
-                size: 30,
+                size: 25,
               )),
-          const SizedBox(
-            width: 5,
-          ),
           IconButton(
+              padding: EdgeInsets.zero,
               onPressed: () {},
               icon: const Icon(
                 EvaIcons.paperPlane,
-                size: 30,
+                size: 25,
               ))
         ],
       ),
@@ -138,6 +149,9 @@ Widget _itemPost(BuildContext context, String imgUrl, String caption) {
           caption,
           style: const TextStyle(fontSize: 16),
         ),
+      ),
+      SizedBox(
+        height: 10,
       )
     ],
   );
