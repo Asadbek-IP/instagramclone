@@ -45,8 +45,8 @@ class _HomePageState extends State<HomePage> {
             });
           },
           controller: _pageController,
-          children: const [
-            PostPage(),
+          children:  [
+            PostPage(pageController: _pageController,),
             SearchPage(),
             UploadPage(),
             LikePage(),

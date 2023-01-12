@@ -2,10 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:instagramclone/model/post_model.dart';
+import 'package:instagramclone/pages/upload_page.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PostPage extends StatefulWidget {
-  const PostPage({super.key});
+  PageController? pageController;
+   PostPage({this.pageController,super.key});
 
   @override
   State<PostPage> createState() => _PostPageState();
@@ -36,7 +38,9 @@ class _PostPageState extends State<PostPage> {
         appBar: AppBar(
             actions: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    widget.pageController!.animateToPage(2, duration: const Duration(milliseconds: 200), curve: Curves.linear);
+                  },
                   icon: const Icon(
                     EvaIcons.camera,
                     color: Colors.black,
@@ -106,7 +110,7 @@ Widget _itemPost(BuildContext context, String imgUrl, String caption) {
           ],
         ),
       ),
-      SizedBox(
+      const SizedBox(
         height: 5,
       ),
       Container(
@@ -128,7 +132,7 @@ Widget _itemPost(BuildContext context, String imgUrl, String caption) {
       Row(
         children: [
           IconButton(
-              padding: EdgeInsets.only(left: 5),
+              padding: const EdgeInsets.only(left: 5),
               onPressed: () {},
               icon: const Icon(
                 EvaIcons.heartOutline,
@@ -150,7 +154,7 @@ Widget _itemPost(BuildContext context, String imgUrl, String caption) {
           style: const TextStyle(fontSize: 16),
         ),
       ),
-      SizedBox(
+      const SizedBox(
         height: 10,
       )
     ],
