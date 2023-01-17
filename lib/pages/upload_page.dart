@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UploadPage extends StatefulWidget {
-  const UploadPage({super.key});
+  PageController? pageController;
+   UploadPage({this.pageController,super.key});
 
   @override
   State<UploadPage> createState() => _UploadPageState();
@@ -68,9 +69,13 @@ class _UploadPageState extends State<UploadPage> {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                widget.pageController!.animateToPage(0, duration: Duration(milliseconds: 200), curve: Curves.linear);
+              },
               icon: const Icon(
+              
                 Icons.add_photo_alternate,
+                size: 30,
                 color: Color(0xfff833ab4),
               ))
         ],

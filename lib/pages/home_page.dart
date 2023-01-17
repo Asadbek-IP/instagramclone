@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
           children:  [
             PostPage(pageController: _pageController,),
             SearchPage(),
-            UploadPage(),
+            UploadPage(pageController: _pageController,),
             LikePage(),
             ProfilePage()
           ],
