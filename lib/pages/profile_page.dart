@@ -123,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         backgroundColor: Colors.white,
                         radius: 43,
                         child: _image == null
-                            ? CircleAvatar(
+                            ? const CircleAvatar(
                                 radius: 42,
                                 backgroundImage:
                                     AssetImage("assets/images/profile_img.png"),
@@ -271,8 +271,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           itemCount: posts.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            mainAxisSpacing: 10,
-                            crossAxisSpacing: 10,
+                            crossAxisSpacing: 2,
                             crossAxisCount: 2,
                           ),
                           itemBuilder: (context, index) => _itemOfPost2(context,
@@ -322,7 +321,7 @@ Widget _itemOfPost2(BuildContext context, String imgUrl, String caption) {
     children: [
       Container(
         width: MediaQuery.of(context).size.width * 0.6,
-        height: MediaQuery.of(context).size.width * 0.4,
+        height: MediaQuery.of(context).size.width * 0.49,
         color: Colors.grey.withOpacity(0.3),
         child: CachedNetworkImage(
           fit: BoxFit.cover,
@@ -338,10 +337,6 @@ Widget _itemOfPost2(BuildContext context, String imgUrl, String caption) {
           ),
         ),
       ),
-      const SizedBox(
-        height: 8,
-      ),
-      Text(caption),
     ],
   );
 }
